@@ -12,5 +12,26 @@ repos:
     rev: v1.2.0
     hooks:
       - id: addlicense
+        name: addlicense (root)
         args: ["-l", "mpl"]
         types: [go]
+        exclude: ^contract/
+      - id: addlicense
+        name: addlicense (contract)
+        # The trailing period: the template has none before "All rights reserved."
+        args: ["-l", "bsd", "-c", "Xinhe Wang."]
+        types: [go]
+        files: ^contract/
+
+  - repo: local
+    hooks:
+      - id: golangci-lint
+        name: golangci-lint (contract)
+        # The hosted hook cannot be used: it runs from the repository root, which has no
+        # go.mod, and pre-commit has no per-hook working directory. `go -C` supplies one.
+        entry: go -C contract run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.13.2 run --fix ./...
+        language: system
+        require_serial: true
+        pass_filenames: false
+        files: ^contract/
+        types_or: [go, go-mod, go-sum]

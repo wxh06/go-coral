@@ -41,7 +41,7 @@ type Request struct {
 	// Token is what f is computed from under HashMethodAuth (the Nintendo Account id_token) and
 	// HashMethodWebService (the Coral access token). Under HashMethodNone it is the Bearer the
 	// request will be sent with, or empty when the request sends none.
-	Token []byte
+	Token string
 
 	// Body is the plain JSON body, an object. Under HashMethodAuth and HashMethodWebService its
 	// "parameter" object carries a requestId (a lowercase UUID v4) and a timestamp (Unix
